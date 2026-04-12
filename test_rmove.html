@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>R Move Debug</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// R 이동 후 facelet 38 확인
+let c = new FaceletCube();
+console.log('Solved f[38]='+c.f[38]);
+c.move('R');
+console.log('After R: f[38]='+c.f[38]+' (should be 4=L if R doesnt touch it)');
+
+// R 이동의 ALL_MOVE_PERMS['R'] 출력
+const rPerm = ALL_MOVE_PERMS['R'];
+console.log('R perm touches 38?', rPerm[38] !== 38, 'p[38]='+rPerm[38]);
+
+// U 이동 후 f[47] 확인
+c = new FaceletCube();
+console.log('Before U: f[47]='+c.f[47]+' f[38]='+c.f[38]);
+c.move('U');
+console.log('After U: f[47]='+c.f[47]+' (should be f_before[38]=4=L)');
+
+// R U 후 f[47] step by step
+c = new FaceletCube();
+c.move('R');
+console.log('After R: f[38]='+c.f[38]+' f[47]='+c.f[47]);
+const f38_after_R = c.f[38];
+c.move('U');
+console.log('After R,U: f[47]='+c.f[47]+' (should be f_after_R[38]='+f38_after_R+')');
+
+// U perm touches 38?
+const uPerm = ALL_MOVE_PERMS['U'];
+console.log('U perm[47]='+uPerm[47]+' (값이 38이어야 f[47]=f_before[38])');
+console.log('U perm[38]='+uPerm[38]);
+</script>
+</body>
+</html>

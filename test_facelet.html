@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Corner Facelet Finder v2</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// 각 코너의 올바른 facelet 집합 찾기
+// 방법: 해결 상태에서 각 코너 위치의 3면이 만나는 facelet을 
+// 이동의 사이클로 확인
+
+// 각 면의 facelet 인덱스
+// U: 0-8, R: 9-17, F: 18-26, D: 27-35, L: 36-44, B: 45-53
+
+// 각 코너는 3개 면의 모서리. 면의 레이아웃 (각 면 정면):
+//  0 1 2
+//  3 4 5
+//  6 7 8
+
+// URF 코너: U의 오른쪽 앞 = U[8]=8, F의 오른쪽 위 = F[2]=20, R의 왼쪽 위 = R[0]=9
+// 검증: R CW에서 URF → DRF (아래로)
+// R CW에서 f[8]은?
+const rPerm = ALL_MOVE_PERMS['R'];
+for (let i=0;i<54;i++) if(rPerm[i]===8) console.log('R CW: f[8] → f['+i+'] (face'+Math.floor(i/9)+'['+i%9+'])');
+// 기대: 8(URF의 U면) → 26(DRF의 F면) 또는 비슷한 것
+
+// 완전한 코너 추적:
+// 각 코너의 facelet을 독립적으로 마킹
+// 방법: 코너 위치를 하나씩 확인
+
+console.log('\n=== 코너 facelet 찾기 ===');
+console.log('규칙: 각 코너는 3개 이동에 모두 포함되는 facelet 3개');
+
+// 각 큐브 이동에 영향받는 facelet 집합
+const affectedByMove = {};
+for (const mv of ['U','D','F','B','L','R']) {
+  const p = ALL_MOVE_PERMS[mv];
+  affectedByMove[mv] = new Set();
+  for (let i=0;i<54;i++) if(p[i]!==i) affectedByMove[mv].add(i);
+}
+
+// 각 코너는 정확히 3개 이동(3개 면)에 속함
+// URF 코너: U, R, F에 속하는 facelet
+const corners = [
+  {name:'URF', faces:['U','R','F'], udFace:'U'},
+  {name:'UFL', faces:['U','F','L'], udFace:'U'},
+  {name:'ULB', faces:['U','L','B'], udFace:'U'},
+  {name:'URB', faces:['U','R','B'], udFace:'U'},
+  {name:'DFR', faces:['D','F','R'], udFace:'D'},
+  {name:'DFL', faces:['D','F','L'], udFace:'D'},
+  {name:'DBL', faces:['D','B','L'], udFace:'D'},
+  {name:'DRB', faces:['D','R','B'], udFace:'D'},
+];
+
+for (const corner of corners) {
+  const [m1,m2,m3] = corner.faces;
+  const intersect = [...affectedByMove[m1]].filter(i => 
+    affectedByMove[m2].has(i) && affectedByMove[m3].has(i)
+  );
+  console.log(corner.name+':', intersect, 
+    '= ['+intersect.map(i=>'face'+Math.floor(i/9)+'['+i%9+']').join(', ')+']');
+}
+
+// 엣지도 확인
+console.log('\n=== 엣지 facelet 찾기 ===');
+const edges = [
+  {name:'UR', faces:['U','R']},
+  {name:'UF', faces:['U','F']},
+  {name:'UL', faces:['U','L']},
+  {name:'UB', faces:['U','B']},
+  {name:'DR', faces:['D','R']},
+  {name:'DF', faces:['D','F']},
+  {name:'DL', faces:['D','L']},
+  {name:'DB', faces:['D','B']},
+  {name:'FR', faces:['F','R']},
+  {name:'FL', faces:['F','L']},
+  {name:'BR', faces:['B','R']},
+  {name:'BL', faces:['B','L']},
+];
+
+for (const edge of edges) {
+  const [m1,m2] = edge.faces;
+  const intersect = [...affectedByMove[m1]].filter(i => affectedByMove[m2].has(i));
+  console.log(edge.name+':', intersect,
+    '= ['+intersect.map(i=>'face'+Math.floor(i/9)+'['+i%9+']').join(', ')+']');
+}
+</script>
+</body>
+</html>

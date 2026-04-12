@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Parity Debug</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// R U F 후 패리티 디버그
+const c = new FaceletCube();
+c.move('R'); c.move('U'); c.move('F');
+
+// 코너 분석
+console.log('=== CORNER ANALYSIS ===');
+const cp = new Array(8).fill(-1);
+const co = new Array(8).fill(0);
+
+for (let i = 0; i < 8; i++) {
+  const colors = _CF[i].map(fi => c.f[fi]);
+  const colorSet = new Set(colors);
+  for (let d = 0; d < 8; d++) {
+    const solved = _CF_SOLVED[d];
+    if (solved.every(f => colorSet.has(f))) {
+      cp[i] = d;
+      const udIdx = colors.findIndex(v => v === 0 || v === 3);
+      co[i] = udIdx;
+      break;
+    }
+  }
+  console.log(`Corner[${i}]: colors=${JSON.stringify(colors)} cp=${cp[i]} co=${co[i]}`);
+}
+console.log('co sum:', co.reduce((a,b)=>a+b,0), 'mod3:', co.reduce((a,b)=>a+b,0)%3);
+
+// 엣지 분석
+console.log('=== EDGE ANALYSIS ===');
+const ep = new Array(12).fill(-1);
+const eo = new Array(12).fill(0);
+
+for (let i = 0; i < 12; i++) {
+  const colors = _EF[i].map(fi => c.f[fi]);
+  const colorSet = new Set(colors);
+  for (let d = 0; d < 12; d++) {
+    const solved = _EF_SOLVED[d];
+    if (solved.every(f => colorSet.has(f))) {
+      ep[i] = d;
+      if (i < 8) {
+        eo[i] = (colors[0]===0||colors[0]===3) ? 0 : 1;
+      } else {
+        eo[i] = (colors[0]===2||colors[0]===5) ? 0 : 1;
+      }
+      break;
+    }
+  }
+  if (ep[i] === -1) console.log(`Edge[${i}]: UNMATCHED colors=${JSON.stringify(colors)}`);
+}
+console.log('eo sum:', eo.reduce((a,b)=>a+b,0), 'mod2:', eo.reduce((a,b)=>a+b,0)%2);
+
+// 패리티 계산
+let cpParity = 0;
+const cpVis = new Array(8).fill(false);
+for (let i = 0; i < 8; i++) {
+  if (!cpVis[i]) {
+    let len = 0, j = i;
+    while (!cpVis[j]) { cpVis[j] = true; j = cp[j]; len++; }
+    cpParity ^= (len - 1) & 1;
+  }
+}
+let epParity = 0;
+const epVis = new Array(12).fill(false);
+for (let i = 0; i < 12; i++) {
+  if (!epVis[i]) {
+    let len = 0, j = i;
+    while (!epVis[j]) { epVis[j] = true; j = ep[j]; len++; }
+    epParity ^= (len - 1) & 1;
+  }
+}
+console.log('cp:', JSON.stringify(cp));
+console.log('ep:', JSON.stringify(ep));
+console.log('cpParity:', cpParity, 'epParity:', epParity, 'match:', cpParity===epParity);
+console.log('co sum mod3:', co.reduce((a,b)=>a+b,0)%3);
+console.log('eo sum mod2:', eo.reduce((a,b)=>a+b,0)%2);
+
+// _CF_SOLVED 확인
+console.log('=== _CF_SOLVED ===');
+for (let i = 0; i < 8; i++) console.log(`CF_SOLVED[${i}]=${JSON.stringify(_CF_SOLVED[i])}`);
+console.log('=== _EF_SOLVED ===');
+for (let i = 0; i < 12; i++) console.log(`EF_SOLVED[${i}]=${JSON.stringify(_EF_SOLVED[i])}`);
+</script>
+</body>
+</html>

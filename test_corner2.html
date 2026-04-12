@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Corner Facelet Finder</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// 각 코너의 정확한 facelet 인덱스 찾기
+// 방법: 해결 상태에서 특정 코너 조각을 표시하고 이동 후 추적
+
+// 해결 상태에서 8개 코너 위치의 facelet 확인
+// 코너는 3개 면이 만나는 곳
+
+// 방법: 하나씩 facelet에 고유 값 넣고 이동 추적으로 확인
+// 더 단순한 방법: U CW 이동에서 F[2]→R[2]→B[?]→L[?] 추적
+
+const uPerm = ALL_MOVE_PERMS['U'];
+
+// F[2]=20 → 어디로?
+// uPerm[x]=20이면 f[x]←f[20], 즉 f[20]값이 x로 이동
+let dest = -1;
+for (let i = 0; i < 54; i++) if (uPerm[i] === 20) { dest = i; break; }
+console.log('F[2]=20 → ' + dest + ' (face'+Math.floor(dest/9)+'['+dest%9+'])');
+
+// dest → 어디로?
+let dest2 = -1;
+for (let i = 0; i < 54; i++) if (uPerm[i] === dest) { dest2 = i; break; }
+console.log('  → ' + dest2 + ' (face'+Math.floor(dest2/9)+'['+dest2%9+'])');
+
+let dest3 = -1;
+for (let i = 0; i < 54; i++) if (uPerm[i] === dest2) { dest3 = i; break; }
+console.log('  → ' + dest3 + ' (face'+Math.floor(dest3/9)+'['+dest3%9+'])');
+
+let dest4 = -1;
+for (let i = 0; i < 54; i++) if (uPerm[i] === dest3) { dest4 = i; break; }
+console.log('  → ' + dest4 + ' (back to F[2])');
+
+console.log('');
+console.log('So URF corner: U[2]=2, F[2]=20, R['+dest%9+']='+dest);
+
+// 다른 코너들도 확인
+// UFL: U[6]=6, F[0]=18, L[0]=36
+// U CW에서 F[0]=18 → R[0]=9, U[6]=6 → U[8]=8
+// L[0]=36은 어디로?
+const dest_L0 = [];
+for (let i = 0; i < 54; i++) if (uPerm[i] === 36) dest_L0.push(i);
+console.log('L[0]=36 → ' + dest_L0 + ' (becomes where after U CW)');
+// uPerm[i]=36 means new_f[i] = old_f[36], so 36 "goes to" position i
+// Actually: new_f[i] = old_f[uPerm[i]], so if uPerm[i]=36, position i gets value from 36
+// To find where 36's value goes: find j where uPerm[j]=36
+for (let i = 0; i < 54; i++) {
+  if (uPerm[i] === 36) {
+    console.log(`L[0]=36 value goes to position ${i} = face${Math.floor(i/9)}[${i%9}]`);
+  }
+}
+
+// 모든 코너 위치 확인을 위한 체계적 접근
+// U 면에서 4개 코너: U[0,2,6,8] = facelet 0,2,6,8
+// 각 코너에서 U면 facelet과 인접 2개 facelet 찾기
+
+// URF 코너: U[2]=2
+// U CW에서 2는 0에서 값을 받음 (p[2]=0)
+// U CW에서 2가 8로 이동 (p[8]=2)
+// URF의 다른 facelet: R면과 F면
+// F[2]=20이 R[2]=11로 이동하는 것을 확인했음
+
+// 직접 검증: R CW 이동 후 어떤 변화?
+const rPerm = ALL_MOVE_PERMS['R'];
+// R CW에서 U[2]=2는 어디로?
+for (let i = 0; i < 54; i++) {
+  if (rPerm[i] === 2) {
+    console.log(`R CW: U[2]=2 value goes to position ${i} = face${Math.floor(i/9)}[${i%9}]`);
+  }
+}
+
+// B면에서 URB 코너: B면을 뒤에서 봤을 때
+// B[0]=45: 뒤에서 볼때 좌상 = 큐브의 우상(UBR)
+// B[2]=47: 뒤에서 볼때 우상 = 큐브의 좌상(UBL)
+// URB 코너에서 B면 facelet은 B[0]=45?
+
+// 확인: R CW에서 URB 코너의 B면 facelet이 영향받는가?
+// R CW 사이클: [2,20,29,47], [5,23,32,50], [8,26,35,53]
+// facelet 47이 포함됨! 하지만 45는?
+console.log('R CW perm[45]='+rPerm[45]+' perm[47]='+rPerm[47]);
+// 만약 R CW가 URB 코너를 이동시킨다면 U[2]=2, R[?], B[?] 모두 변해야 함
+
+// R CW 후 U[2]=2의 값이 어디로?
+for (let i = 0; i < 54; i++) {
+  if (rPerm[i] === 2) console.log(`R CW: facelet 2 → ${i} (face${Math.floor(i/9)}[${i%9}])`);
+}
+// 기대: 2(URB의 U면) → F[2]=20 (URF의 F면으로, 이것은 물리적으로 R CW에서 URB→URF)
+// 즉 URF의 F면 facelet에 들어가야 함
+
+console.log('');
+console.log('=== Corner Facelet Analysis ===');
+// R CW: URB → URF (R CW에서 위 뒤 오른쪽 → 위 앞 오른쪽)
+// U[2]=2 → F[2]=20 (U면 가 F면으로)
+// R의 URB 면 → R의 URF 면 (R 자체 회전)
+// B의 URB 면 → U의 URF 면 (B면이 U면으로)
+
+// R CW 이동 사이클 출력
+const rChanges = [];
+for (let i = 0; i < 54; i++) if (rPerm[i] !== i) rChanges.push(`${i}←${rPerm[i]}`);
+console.log('R CW changes:', rChanges.join(', '));
+</script>
+</body>
+</html>

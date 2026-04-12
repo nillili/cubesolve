@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html><head><title>Corner Index Verify</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+window.addEventListener('load', function() {
+  const colorByFace={0:'W',1:'G',2:'R',3:'Y',4:'B',5:'O'};
+  const FACES=['U','R','F','D','L','B'];
+  const faceIdx={U:0,R:1,F:2,D:3,L:4,B:5};
+  
+  // solved 큐브에서 각 코너의 3면 칸을 직접 확인
+  // 물리적 위치로 코너를 정의:
+  // URF: U면 앞-오른쪽 모서리, R면 위-앞 모서리, F면 위-오른쪽 모서리
+  
+  // 큐브 면 layout (각 면 정면에서):
+  // U:  0 1 2      F앞이 아래, R오른쪽이 오른
+  //     3 4 5
+  //     6 7 8
+  // R:  9 10 11    U위가 위, F앞이 왼쪽
+  //    12 13 14
+  //    15 16 17
+  // F: 18 19 20    U위가 위, R오른쪽이 오른
+  //    21 22 23
+  //    24 25 26
+  // D: 27 28 29    F앞이 위, R오른쪽이 오른
+  //    30 31 32
+  //    33 34 35
+  // L: 36 37 38    U위가 위, F앞이 오른쪽 (왼쪽에서 봄)
+  //    39 40 41
+  //    42 43 44
+  // B: 45 46 47    U위가 위, L왼쪽이 오른쪽 (뒤에서 봄)
+  //    48 49 50
+  //    51 52 53
+  
+  // 표준 큐브 방향:
+  // U-face: 앞(F)방향이 아래
+  //   0=ULB, 1=UB, 2=URB
+  //   3=UL,  4=U,  5=UR
+  //   6=ULF, 7=UF, 8=URF  ← URF 코너는 U[8]
+  
+  // R-face: 위(U)방향이 위, 앞(F)방향이 왼쪽
+  //   9=RUF,  10=RU, 11=RUB
+  //  12=RF,   13=R,  14=RB
+  //  15=RDF,  16=RD, 17=RDB  ← URF에서 R면 = R[0]=9
+  
+  // F-face: 위(U)방향이 위, 오른쪽(R)방향이 오른쪽
+  //  18=FUL, 19=FU, 20=FUR
+  //  21=FL,  22=F,  23=FR
+  //  24=FDL, 25=FD, 26=FDR  ← URF에서 F면 = F[2]=20
+  
+  // URF 코너: U[8]=8, R[0]=9, F[2]=20
+  // solved: f[8]=0(W), f[9]=1(G), f[20]=2(R) → W,G,R ✅
+  
+  const solved=new FaceletCube();
+  console.log('URF solved: U[8]='+colorByFace[solved.f[8]]+', R[0]='+colorByFace[solved.f[9]]+', F[2]='+colorByFace[solved.f[20]]);
+  
+  // ULF 코너: U[6]=6, L면, F면
+  // L-face: 위(U)방향이 위, 앞(F)방향이 오른쪽 (왼쪽에서 봄)
+  //  36=LUF, 37=LU, 38=LUB  ← ULF에서 L면 = L[0]=36
+  //  39=LF,  40=L,  41=LB
+  //  42=LDF, 43=LD, 44=LDB
+  // F-face: FUL = F[0]=18
+  // ULF: U[6]=6, L[0]=36, F[0]=18
+  console.log('ULF solved: U[6]='+colorByFace[solved.f[6]]+', L[0]='+colorByFace[solved.f[36]]+', F[0]='+colorByFace[solved.f[18]]);
+  
+  // UBL 코너: U면의 왼쪽-위 = U[0]
+  // B-face: 뒤에서 봤을 때, 위(U)가 위, 왼쪽(L)방향이 오른쪽
+  //  45=BUL, 46=BU, 47=BUR  ← UBL에서 B면 = B[0]=45
+  //  48=BL,  49=B,  50=BR
+  //  51=BDL, 52=BD, 53=BDR
+  // L-face: LUB = L[2]=38
+  // UBL: U[0]=0, B[0]=45, L[2]=38
+  console.log('UBL solved: U[0]='+colorByFace[solved.f[0]]+', B[0]='+colorByFace[solved.f[45]]+', L[2]='+colorByFace[solved.f[38]]);
+  
+  // URB 코너: U면의 오른쪽-위 = U[2]
+  // R-face: RUB = R[2]=11
+  // B-face: BUR = B[2]=47
+  // URB: U[2]=2, R[2]=11, B[2]=47
+  console.log('URB solved: U[2]='+colorByFace[solved.f[2]]+', R[2]='+colorByFace[solved.f[11]]+', B[2]='+colorByFace[solved.f[47]]);
+  
+  // DRF 코너: D면의 오른쪽-앞 = D[2]
+  // R-face: RDF = R[6]=15
+  // F-face: FDR = F[8]=26
+  // DRF: D[2]=29, R[6]=15, F[8]=26
+  console.log('DRF solved: D[2]='+colorByFace[solved.f[29]]+', R[6]='+colorByFace[solved.f[15]]+', F[8]='+colorByFace[solved.f[26]]);
+  
+  // DLF: D[0]=27, L[8]=44, F[6]=24
+  console.log('DLF solved: D[0]='+colorByFace[solved.f[27]]+', L[8]='+colorByFace[solved.f[44]]+', F[6]='+colorByFace[solved.f[24]]);
+  
+  // DLB: D[6]=33, L[6]=42, B[8]=53
+  console.log('DLB solved: D[6]='+colorByFace[solved.f[33]]+', L[6]='+colorByFace[solved.f[42]]+', B[8]='+colorByFace[solved.f[53]]);
+  
+  // DBR: D[8]=35, B[6]=51, R[8]=17
+  console.log('DBR solved: D[8]='+colorByFace[solved.f[35]]+', B[6]='+colorByFace[solved.f[51]]+', R[8]='+colorByFace[solved.f[17]]);
+  
+  // EDGES
+  // UF: U[7]=7, F[1]=19
+  // UR: U[5]=5, R[1]=10
+  // UL: U[3]=3, L[1]=37
+  // UB: U[1]=1, B[1]=46
+  console.log('\nEdge UF: U[7]='+colorByFace[solved.f[7]]+', F[1]='+colorByFace[solved.f[19]]);
+  console.log('Edge UR: U[5]='+colorByFace[solved.f[5]]+', R[1]='+colorByFace[solved.f[10]]);
+  console.log('Edge FR: F[5]='+colorByFace[solved.f[23]]+', R[3]='+colorByFace[solved.f[12]]);
+  console.log('Edge FL: F[3]='+colorByFace[solved.f[21]]+', L[5]='+colorByFace[solved.f[41]]);
+  console.log('Edge BR: B[3]='+colorByFace[solved.f[48]]+', R[5]='+colorByFace[solved.f[14]]);
+  console.log('Edge BL: B[5]='+colorByFace[solved.f[50]]+', L[3]='+colorByFace[solved.f[39]]);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>루빅스 큐브 솔버</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css"/>
+</head>
+<body>
+  <div id="app">
+    <!-- 헤더 -->
+    <header class="header">
+      <div class="header-inner">
+        <div class="logo">
+          <i class="fas fa-cube"></i>
+          <span>루빅스 큐브 솔버</span>
+        </div>
+        <div class="step-indicator">
+          <div class="step active" id="step1-indicator">
+            <span class="step-num">1</span>
+            <span class="step-label">색상 입력</span>
+          </div>
+          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="step" id="step2-indicator">
+            <span class="step-num">2</span>
+            <span class="step-label">검증</span>
+          </div>
+          <div class="step-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="step" id="step3-indicator">
+            <span class="step-num">3</span>
+            <span class="step-label">풀기</span>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <main class="main-container">
+      <!-- 왼쪽: 큐브 전개도 입력 -->
+      <section class="input-section">
+        <div class="section-title">
+          <i class="fas fa-paint-brush"></i>
+          <h2>큐브 색상 입력</h2>
+          <span class="section-desc">각 면의 색상을 클릭하여 지정하세요</span>
+        </div>
+
+        <!-- 색상 팔레트 -->
+        <div class="palette-container">
+          <div class="palette-title">색상 선택</div>
+          <div class="palette">
+            <div class="color-btn active" data-color="W" style="background:#FFFFFF;" title="흰색 (White)">
+              <span>W</span>
+            </div>
+            <div class="color-btn" data-color="Y" style="background:#FFD700;" title="노란색 (Yellow)">
+              <span>Y</span>
+            </div>
+            <div class="color-btn" data-color="R" style="background:#E8292A;" title="빨간색 (Red)">
+              <span>R</span>
+            </div>
+            <div class="color-btn" data-color="O" style="background:#FF6B00;" title="주황색 (Orange)">
+              <span>O</span>
+            </div>
+            <div class="color-btn" data-color="B" style="background:#1C5BC5;" title="파란색 (Blue)">
+              <span>B</span>
+            </div>
+            <div class="color-btn" data-color="G" style="background:#0D9E4E;" title="초록색 (Green)">
+              <span>G</span>
+            </div>
+          </div>
+          <div class="color-count-panel">
+            <div class="count-item" id="count-W"><div class="count-dot" style="background:#FFFFFF;border:1px solid #ccc;"></div><span>흰색: <b id="cnt-W">0</b>/9</span></div>
+            <div class="count-item" id="count-Y"><div class="count-dot" style="background:#FFD700;"></div><span>노란: <b id="cnt-Y">0</b>/9</span></div>
+            <div class="count-item" id="count-R"><div class="count-dot" style="background:#E8292A;"></div><span>빨간: <b id="cnt-R">0</b>/9</span></div>
+            <div class="count-item" id="count-O"><div class="count-dot" style="background:#FF6B00;"></div><span>주황: <b id="cnt-O">0</b>/9</span></div>
+            <div class="count-item" id="count-B"><div class="count-dot" style="background:#1C5BC5;"></div><span>파란: <b id="cnt-B">0</b>/9</span></div>
+            <div class="count-item" id="count-G"><div class="count-dot" style="background:#0D9E4E;"></div><span>초록: <b id="cnt-G">0</b>/9</span></div>
+          </div>
+        </div>
+
+        <!-- 큐브 전개도 -->
+        <div class="unfolded-cube-container">
+          <div class="face-label-row">
+            <span></span><span>윗면 (U)</span>
+          </div>
+          <div class="cube-cross">
+            <!-- 윗면 (U) -->
+            <div class="face-wrapper top-face">
+              <div class="face-tag">U</div>
+              <div class="face" id="face-U" data-face="U"></div>
+            </div>
+            <!-- 가운데 줄: 왼쪽(L), 앞면(F), 오른쪽(R), 뒷면(B) -->
+            <div class="middle-row">
+              <div class="face-wrapper">
+                <div class="face-tag">L</div>
+                <div class="face" id="face-L" data-face="L"></div>
+              </div>
+              <div class="face-wrapper">
+                <div class="face-tag">F</div>
+                <div class="face" id="face-F" data-face="F"></div>
+              </div>
+              <div class="face-wrapper">
+                <div class="face-tag">R</div>
+                <div class="face" id="face-R" data-face="R"></div>
+              </div>
+              <div class="face-wrapper">
+                <div class="face-tag">B</div>
+                <div class="face" id="face-B" data-face="B"></div>
+              </div>
+            </div>
+            <!-- 아랫면 (D) -->
+            <div class="face-wrapper bottom-face">
+              <div class="face-tag">D</div>
+              <div class="face" id="face-D" data-face="D"></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 버튼 -->
+        <div class="btn-row">
+          <button class="btn btn-secondary" id="btn-reset">
+            <i class="fas fa-undo"></i> 초기화
+          </button>
+          <button class="btn btn-primary" id="btn-solve">
+            <i class="fas fa-magic"></i> 해결하기
+          </button>
+        </div>
+
+        <!-- 오류 메시지 -->
+        <div id="error-msg" class="error-msg hidden">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span id="error-text"></span>
+        </div>
+      </section>
+
+      <!-- 오른쪽: 3D 큐브 미리보기 + 솔루션 -->
+      <section class="preview-section">
+        <!-- 3D 큐브 -->
+        <div class="cube3d-container">
+          <div class="section-title">
+            <i class="fas fa-cube"></i>
+            <h2>3D 미리보기</h2>
+          </div>
+          <div id="cube3d-wrap">
+            <div id="cube3d">
+              <div class="cube-face face-front"  id="3d-F"></div>
+              <div class="cube-face face-back"   id="3d-B"></div>
+              <div class="cube-face face-left"   id="3d-L"></div>
+              <div class="cube-face face-right"  id="3d-R"></div>
+              <div class="cube-face face-top"    id="3d-U"></div>
+              <div class="cube-face face-bottom" id="3d-D"></div>
+            </div>
+          </div>
+          <p class="drag-hint"><i class="fas fa-hand-pointer"></i> 드래그로 회전</p>
+        </div>
+
+        <!-- 솔루션 패널 -->
+        <div class="solution-panel" id="solution-panel">
+          <div class="section-title">
+            <i class="fas fa-list-ol"></i>
+            <h2>해결 방법</h2>
+          </div>
+          <div id="solution-content">
+            <div class="solution-empty">
+              <i class="fas fa-puzzle-piece"></i>
+              <p>큐브 색상을 입력하고<br/><b>해결하기</b> 버튼을 누르세요</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- 로딩 오버레이 -->
+    <div id="loading-overlay" class="hidden">
+      <div class="loading-box">
+        <div class="spinner"></div>
+        <p>최적 해결책 계산 중...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/cube-solver.js"></script>
+  <script src="js/cube3d.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

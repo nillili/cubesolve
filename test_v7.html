@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Solver Test v7</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// === 이동 방향 검증 ===
+function testMoveDirection() {
+  // R CW: 오른쪽에서 볼 때 시계 = U right→F right→D right→B left(역)
+  // 해결 상태에서 R CW 후: F의 오른쪽열(색2)이 D오른쪽으로 가야 함
+  let c = new FaceletCube();
+  c.move('R');
+  // U[2]=f[2], U[5]=f[5], U[8]=f[8] → F[2]=f[20], F[5]=f[23], F[8]=f[26]으로
+  const ok_R = (c.f[20]===0 && c.f[23]===0 && c.f[26]===0 &&  // F right = U color (0)
+                c.f[29]===2 && c.f[32]===2 && c.f[35]===2 &&  // D right = F color (2)
+                c.f[47]===3 && c.f[50]===3 && c.f[53]===3 &&  // B left(reversed) = D color (3)
+                c.f[2]===5  && c.f[5]===5  && c.f[8]===5);    // U right = B color (5)
+  console.log('R CW direction:', ok_R ? 'OK' : 'FAIL', JSON.stringify({
+    'F-right(should=U=0)':[c.f[20],c.f[23],c.f[26]],
+    'D-right(should=F=2)':[c.f[29],c.f[32],c.f[35]],
+    'B-left(should=D=3)':[c.f[47],c.f[50],c.f[53]],
+    'U-right(should=B=5)':[c.f[2],c.f[5],c.f[8]]
+  }));
+
+  // U CW: 위에서 볼 때 시계 = F top→R top→B top→L top
+  c = new FaceletCube();
+  c.move('U');
+  const ok_U = (c.f[9]===2 && c.f[10]===2 && c.f[11]===2 &&   // R top = F(2)
+                c.f[45]===1 && c.f[46]===1 && c.f[47]===1 &&  // B top = R(1)
+                c.f[36]===5 && c.f[37]===5 && c.f[38]===5 &&  // L top = B(5)
+                c.f[18]===4 && c.f[19]===4 && c.f[20]===4);   // F top = L(4)
+  console.log('U CW direction:', ok_U ? 'OK' : 'FAIL', JSON.stringify({
+    'R-top(should=F=2)':[c.f[9],c.f[10],c.f[11]],
+    'B-top(should=R=1)':[c.f[45],c.f[46],c.f[47]],
+    'L-top(should=B=5)':[c.f[36],c.f[37],c.f[38]],
+    'F-top(should=L=4)':[c.f[18],c.f[19],c.f[20]]
+  }));
+
+  // F CW: 앞에서 볼 때 시계 = U bottom→R left→D top→L right
+  c = new FaceletCube();
+  c.move('F');
+  const ok_F = (c.f[9]===0 && c.f[12]===0 && c.f[15]===0 &&  // R left = U(0)
+                c.f[27]===1 && c.f[28]===1 && c.f[29]===1 &&  // D top = R(1)  -- wait, D top = f[27,28,29]
+                c.f[38]===3 && c.f[41]===3 && c.f[44]===3 &&  // L right = D(3)
+                c.f[6]===4  && c.f[7]===4  && c.f[8]===4);    // U bottom = L(4)
+  console.log('F CW direction:', ok_F ? 'OK' : 'FAIL', JSON.stringify({
+    'R-left(should=U=0)':[c.f[9],c.f[12],c.f[15]],
+    'D-top(should=R=1)':[c.f[27],c.f[28],c.f[29]],
+    'L-right(should=D=3)':[c.f[38],c.f[41],c.f[44]],
+    'U-bottom(should=L=4)':[c.f[6],c.f[7],c.f[8]]
+  }));
+}
+
+// === 자가 검증 ===
+const stOk = selfTest();
+console.log('selfTest:', stOk ? 'PASS' : 'FAIL');
+
+testMoveDirection();
+
+// === 패리티 검사 ===
+// 해결 상태
+{
+  const c = new FaceletCube();
+  console.log('Solved parity:', checkParity(c) ? 'OK' : 'FAIL');
+}
+
+// U이동 후
+{
+  const c = new FaceletCube();
+  c.move('U');
+  console.log('After U parity:', checkParity(c) ? 'OK' : 'FAIL');
+}
+
+// R U F 후
+{
+  const c = new FaceletCube();
+  c.move('R'); c.move('U'); c.move('F');
+  console.log('After R,U,F parity:', checkParity(c) ? 'OK' : 'FAIL');
+}
+
+// === 실제 솔버 테스트 ===
+async function runSolverTest() {
+  // 1. 간단한 큐브: R
+  {
+    const c = new FaceletCube();
+    c.move('R');
+    const sol = solveCubeInternal(c);
+    const v = c.clone();
+    if (sol) { for (const m of sol) v.move(m); }
+    console.log('Solve(R): sol='+JSON.stringify(sol)+' solved='+v.isSolved());
+  }
+  
+  // 2. U이동
+  {
+    const c = new FaceletCube();
+    c.move('U');
+    const sol = solveCubeInternal(c);
+    const v = c.clone();
+    if (sol) { for (const m of sol) v.move(m); }
+    console.log("Solve(U): sol="+JSON.stringify(sol)+' solved='+v.isSolved());
+  }
+
+  // 3. 5수 스크램블
+  {
+    const c = new FaceletCube();
+    const scramble = ["R","U","F'","L","D2"];
+    for (const m of scramble) c.move(m);
+    const sol = solveCubeInternal(c);
+    const v = c.clone();
+    if (sol) { for (const m of sol) v.move(m); }
+    console.log('Solve(5-move): len='+(sol?sol.length:'null')+' solved='+v.isSolved());
+  }
+
+  // 4. ruwix URL 큐브 테스트
+  // 0111111111223522226454632364542344553335656635436564642
+  // 앞의 0 제거 → 111111111223522226454632364542344553335656635436564642
+  // ruwix 색 코드: 1=W,2=O,3=G,4=R,5=B,6=Y로 가정
+  // 또는 직접 faceData 입력으로 테스트
+  
+  // 5. solveCube API 테스트 (U 이동)
+  {
+    const fd = {
+      U: Array(9).fill('W'),
+      R: ['G','G','G','G','G','G','G','G','G'],
+      F: ['R','R','R','R','R','R','R','R','R'],
+      D: ['Y','Y','Y','Y','Y','Y','Y','Y','Y'],
+      L: ['B','B','B','B','B','B','B','B','B'],
+      B: ['O','O','O','O','O','O','O','O','O'],
+    };
+    // U CW: F top → R top → B top → L top
+    // F[0,1,2] → R[0,1,2], R→B, B→L, L→F
+    // 해결상태에서 U CW: U면 그대로, F상단에 L색이 옴
+    fd.U = ['W','W','W','W','W','W','W','W','W'];
+    fd.R[0]=fd.R[1]=fd.R[2]='R'; // R 상단 = F색
+    fd.B[0]=fd.B[1]=fd.B[2]='G'; // B 상단 = R색
+    fd.L[0]=fd.L[1]=fd.L[2]='O'; // L 상단 = B색
+    fd.F[0]=fd.F[1]=fd.F[2]='B'; // F 상단 = L색
+    fd.R[3]=fd.R[4]=fd.R[5]=fd.R[6]=fd.R[7]=fd.R[8]='G';
+    fd.F[3]=fd.F[4]=fd.F[5]=fd.F[6]=fd.F[7]=fd.F[8]='R';
+    fd.B[3]=fd.B[4]=fd.B[5]=fd.B[6]=fd.B[7]=fd.B[8]='O';
+    fd.L[3]=fd.L[4]=fd.L[5]=fd.L[6]=fd.L[7]=fd.L[8]='B';
+    
+    const res = await solveCube(fd);
+    console.log('solveCube(U-moved): valid='+res.valid+' sol='+JSON.stringify(res.solution)+' errors='+JSON.stringify(res.errors));
+  }
+}
+
+runSolverTest();
+</script>
+</body>
+</html>

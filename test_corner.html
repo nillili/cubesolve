@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Corner Index Debug</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// 해결 상태에서 각 코너 facelet 확인
+// URB 코너: U 상단 오른쪽 뒤 = U[2]=facelet2, R 상단 뒤=R[2]=facelet11, B 상단 오른쪽(정면에서)=?
+
+// U CW 이동 사이클 분석
+const uPerm = ALL_MOVE_PERMS['U'];
+console.log('U CW perm:');
+// 어떤 위치가 어디로 이동하는지
+const changes = [];
+for (let i = 0; i < 54; i++) {
+  if (uPerm[i] !== i) changes.push(`f[${i}]<-f[${uPerm[i]}] (face${Math.floor(i/9)}[${i%9}]<-face${Math.floor(uPerm[i]/9)}[${uPerm[i]%9}])`);
+}
+console.log('Changes:', changes.join(', '));
+
+// URB 코너는 어느 위치에 있는가?
+// U 상단 오른쪽 = facelet 2 (U[2])
+// R 상단 (R 오른쪽-위에서 볼때)
+// U CW 후 R 상단행 R[0,1,2]=[9,10,11]에 F값이 와야 함 (F→R)
+
+// B 면에서 URB와 맞닿는 facelet은?
+// B면은 뒤쪽 면, 위에서 볼 때 U[0,1,2] 위치에서
+// U[0] = ULB 코너의 U면
+// U[1] = UB 엣지의 U면
+// U[2] = URB 코너의 U면
+
+// B면을 정면에서 보면(B의 좌표계):
+// B[0] B[1] B[2]
+// B[3] B[4] B[5]
+// B[6] B[7] B[8]
+// 실제 큐브에서 B면을 정면으로 뒤집으면
+// 큐브 정면(F)에서 보면 B면의 왼쪽이 큐브의 오른쪽
+// 따라서:
+// B[0] = UBL 코너 (U면 왼쪽 뒤 = R로부터 멀리)
+// B[2] = URB 코너 (U면 오른쪽 뒤 = R에 가까운 편)
+
+// 하지만 U CW에서 R[0]=9 → B[?]
+// U CW 사이클에서: p[45]=9 → f[45]=f_before[9]
+// 즉 R[0] 값이 B[0]=45으로 이동
+// 그러면 URB 코너에서 B면 facelet은 B[2]=47이 아닌 B[0]=45???
+
+// 더 확인: U CW 후 B 상단행에 R값이 오는지
+let c = new FaceletCube();
+// 해결 상태에서 R면 값: f[9..17]=1
+// B 상단행: f[45,46,47]
+c.move('U');
+console.log('After U CW:');
+console.log('B[0]=45:', c.f[45], '(should be R=1 if R→B)');
+console.log('B[1]=46:', c.f[46], '(should be R=1)');
+console.log('B[2]=47:', c.f[47], '(should be R=1)');
+
+// 실제로 U CW에서 어떤 B 위치에 R값이 오는가?
+c = new FaceletCube();
+// 표시: 각 B facelet에 다른 임시 값 넣기
+// B[0]=45에 100, B[1]=46에 101, B[2]=47에 102 (실제는 불가, 값 타입 그냥 확인)
+// 대신 F면을 다른 색으로 설정
+// F 상단행 18,19,20을 수동으로 설정
+c.f[18] = 10; c.f[19] = 11; c.f[20] = 12; // F top: 10,11,12 (다른 값)
+c.f[9] = 20; c.f[10] = 21; c.f[11] = 22;  // R top: 20,21,22
+c.f[45] = 30; c.f[46] = 31; c.f[47] = 32; // B top: 30,31,32
+c.f[36] = 40; c.f[37] = 41; c.f[38] = 42; // L top: 40,41,42
+
+const beforeF = [...c.f];
+c.move('U');
+console.log('\nU CW tracking:');
+console.log('R top[9,10,11] after U:', c.f[9], c.f[10], c.f[11], '(should be F_top=10,11,12)');
+console.log('B top[45,46,47] after U:', c.f[45], c.f[46], c.f[47], '(should be R_top=20,21,22)');
+console.log('L top[36,37,38] after U:', c.f[36], c.f[37], c.f[38], '(should be B_top=30,31,32)');
+console.log('F top[18,19,20] after U:', c.f[18], c.f[19], c.f[20], '(should be L_top=40,41,42)');
+</script>
+</body>
+</html>

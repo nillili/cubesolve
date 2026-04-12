@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head><meta charset="UTF-8"><title>Facelet Trace</title></head>
+<body>
+<script src="js/cube-solver.js"></script>
+<script>
+// R U F 후 facelet 2, 47, 11 추적
+let c = new FaceletCube();
+console.log('Solved: f[2]='+c.f[2]+' f[47]='+c.f[47]+' f[11]='+c.f[11]);
+
+c.move('R');
+console.log('After R: f[2]='+c.f[2]+' f[47]='+c.f[47]+' f[11]='+c.f[11]);
+
+c.move('U');
+console.log('After RU: f[2]='+c.f[2]+' f[47]='+c.f[47]+' f[11]='+c.f[11]);
+
+c.move('F');
+console.log('After RUF: f[2]='+c.f[2]+' f[47]='+c.f[47]+' f[11]='+c.f[11]);
+
+// 해결 상태에서 R U F 역방향 (F' U' R')이 올바른 해법인지 확인
+c = new FaceletCube();
+c.move('R'); c.move('U'); c.move('F');
+const sol = solveCubeInternal(c);
+console.log('Solve(R,U,F): sol='+JSON.stringify(sol));
+if (sol) {
+  const v = c.clone();
+  for (const m of sol) v.move(m);
+  console.log('solved:', v.isSolved());
+}
+
+// 패리티 결과
+console.log('checkParity after RUF:', checkParity(c));
+
+// 더 자세한 분석: 해결 상태와 R U F 후 전체 facelet 출력
+c = new FaceletCube();
+const solved_f = [...c.f];
+c.move('R'); c.move('U'); c.move('F');
+console.log('Full f after RUF:', JSON.stringify(c.f));
+
+// 코너3 [2,47,11] 체크
+console.log('_CF[3]=[2,47,11], values:', c.f[2], c.f[47], c.f[11]);
+console.log('_CF_SOLVED[3]:', JSON.stringify(_CF_SOLVED[3]));
+
+// URB 코너의 실제 facelet 인덱스 확인
+// 해결상태에서 U-R-B 코너는 U면[2], R면[2(=11)], B면[2(=47)] 위치
+// 해결상태에서 각각 0(U), 1(R), 5(B)
+console.log('Solved URB corner: f[2]='+solved_f[2]+' f[11]='+solved_f[11]+' f[47]='+solved_f[47]);
+</script>
+</body>
+</html>
