@@ -18,24 +18,24 @@
    이동 정보
 ============================================================ */
 const MOVE_INFO = {
-  'U' :{ name:'U  (윗면 시계방향)',       desc:'큐브 위쪽 면을 시계 방향으로 90° 회전합니다.' },
-  "U'":{name:"U' (윗면 반시계방향)",      desc:'큐브 위쪽 면을 반시계 방향으로 90° 회전합니다.' },
-  'U2':{name:'U2 (윗면 180°)',             desc:'큐브 위쪽 면을 180° 회전합니다.' },
-  'D' :{name:'D  (아랫면 시계방향)',      desc:'큐브 아래쪽 면을 시계 방향으로 90° 회전합니다.' },
-  "D'":{name:"D' (아랫면 반시계방향)",    desc:'큐브 아래쪽 면을 반시계 방향으로 90° 회전합니다.' },
-  'D2':{name:'D2 (아랫면 180°)',           desc:'큐브 아래쪽 면을 180° 회전합니다.' },
-  'F' :{name:'F  (앞면 시계방향)',        desc:'큐브 앞쪽 면을 시계 방향으로 90° 회전합니다.' },
-  "F'":{name:"F' (앞면 반시계방향)",      desc:'큐브 앞쪽 면을 반시계 방향으로 90° 회전합니다.' },
-  'F2':{name:'F2 (앞면 180°)',             desc:'큐브 앞쪽 면을 180° 회전합니다.' },
-  'B' :{name:'B  (뒷면 시계방향)',        desc:'큐브 뒷쪽 면을 시계 방향으로 90° 회전합니다.' },
-  "B'":{name:"B' (뒷면 반시계방향)",      desc:'큐브 뒷쪽 면을 반시계 방향으로 90° 회전합니다.' },
-  'B2':{name:'B2 (뒷면 180°)',             desc:'큐브 뒷쪽 면을 180° 회전합니다.' },
-  'L' :{name:'L  (왼쪽면 시계방향)',      desc:'큐브 왼쪽 면을 시계 방향으로 90° 회전합니다.' },
-  "L'":{name:"L' (왼쪽면 반시계방향)",    desc:'큐브 왼쪽 면을 반시계 방향으로 90° 회전합니다.' },
-  'L2':{name:'L2 (왼쪽면 180°)',           desc:'큐브 왼쪽 면을 180° 회전합니다.' },
-  'R' :{name:'R  (오른쪽면 시계방향)',    desc:'큐브 오른쪽 면을 시계 방향으로 90° 회전합니다.' },
-  "R'":{name:"R' (오른쪽면 반시계방향)", desc:'큐브 오른쪽 면을 반시계 방향으로 90° 회전합니다.' },
-  'R2':{name:'R2 (오른쪽면 180°)',         desc:'큐브 오른쪽 면을 180° 회전합니다.' },
+  'U' :{ name:'U  (윗면 시계방향)',       desc:'큐브 위쪽 면을 시계 방향으로 1칸 회전합니다.' },
+  "U'":{name:"U' (윗면 반시계방향)",      desc:'큐브 위쪽 면을 반시계 방향으로 1칸 회전합니다.' },
+  'U2':{name:'U2 (윗면 2칸)',              desc:'큐브 위쪽 면을 2칸 회전합니다.' },
+  'D' :{name:'D  (아랫면 시계방향)',      desc:'큐브 아래쪽 면을 시계 방향으로 1칸 회전합니다.' },
+  "D'":{name:"D' (아랫면 반시계방향)",    desc:'큐브 아래쪽 면을 반시계 방향으로 1칸 회전합니다.' },
+  'D2':{name:'D2 (아랫면 2칸)',            desc:'큐브 아래쪽 면을 2칸 회전합니다.' },
+  'F' :{name:'F  (앞면 시계방향)',        desc:'큐브 앞쪽 면을 시계 방향으로 1칸 회전합니다.' },
+  "F'":{name:"F' (앞면 반시계방향)",      desc:'큐브 앞쪽 면을 반시계 방향으로 1칸 회전합니다.' },
+  'F2':{name:'F2 (앞면 2칸)',              desc:'큐브 앞쪽 면을 2칸 회전합니다.' },
+  'B' :{name:'B  (뒷면 시계방향)',        desc:'큐브 뒷쪽 면을 시계 방향으로 1칸 회전합니다.' },
+  "B'":{name:"B' (뒷면 반시계방향)",      desc:'큐브 뒷쪽 면을 반시계 방향으로 1칸 회전합니다.' },
+  'B2':{name:'B2 (뒷면 2칸)',              desc:'큐브 뒷쪽 면을 2칸 회전합니다.' },
+  'L' :{name:'L  (왼쪽면 시계방향)',      desc:'큐브 왼쪽 면을 시계 방향으로 1칸 회전합니다.' },
+  "L'":{name:"L' (왼쪽면 반시계방향)",    desc:'큐브 왼쪽 면을 반시계 방향으로 1칸 회전합니다.' },
+  'L2':{name:'L2 (왼쪽면 2칸)',            desc:'큐브 왼쪽 면을 2칸 회전합니다.' },
+  'R' :{name:'R  (오른쪽면 시계방향)',    desc:'큐브 오른쪽 면을 시계 방향으로 1칸 회전합니다.' },
+  "R'":{name:"R' (오른쪽면 반시계방향)", desc:'큐브 오른쪽 면을 반시계 방향으로 1칸 회전합니다.' },
+  'R2':{name:'R2 (오른쪽면 2칸)',          desc:'큐브 오른쪽 면을 2칸 회전합니다.' },
 };
 
 /* ============================================================
@@ -73,13 +73,13 @@ const PERM_CW = {};
 
 // U CW: 위에서 봤을때 CW = F상단→R상단→B상단→L상단
 PERM_CW['U'] = makeCyclePerm([
-  [0,2,8,6], [1,5,7,3],
+  [0,6,8,2], [1,3,7,5],
   [18,9,45,36], [19,10,46,37], [20,11,47,38]
 ]);
 
 // D CW: 아래서 봤을때 CW = F하단→L하단→B하단→R하단
 PERM_CW['D'] = makeCyclePerm([
-  [27,29,35,33], [28,32,34,30],
+  [27,33,35,29], [28,30,34,32],
   [24,42,51,15], [25,43,52,16], [26,44,53,17]
 ]);
 
@@ -103,8 +103,8 @@ PERM_CW['L'] = makeCyclePerm([
 
 // R CW: 오른쪽에서 봤을때 CW
 PERM_CW['R'] = makeCyclePerm([
-  [9,11,17,15], [10,14,16,12],
-  [2,20,29,47], [5,23,32,50], [8,26,35,53]
+  [9,15,17,11], [10,12,16,14],
+  [2,20,29,51], [5,23,32,48], [8,26,35,45]
 ]);
 
 const ALL_MOVE_PERMS = {};
@@ -166,14 +166,14 @@ function selfTest() {
 
 // 코너 facelet [UorD면, 인접면1, 인접면2]
 const _CF = [
-  [8, 9, 20],  // 0: URF
-  [6, 18, 36], // 1: UFL
-  [0, 38, 45], // 2: ULB
-  [2, 47, 11], // 3: URB
-  [29, 26, 15],// 4: DFR
-  [27, 24, 44],// 5: DFL
-  [33, 53, 42],// 6: DBL
-  [35, 51, 17],// 7: DBR
+  [8, 9, 20],  // 0: URF  U[8], R[0], F[2]
+  [6, 18, 38], // 1: UFL  U[6], F[0], L[2]
+  [0, 36, 47], // 2: ULB  U[0], L[0], B[2]
+  [2, 45, 11], // 3: URB  U[2], B[0], R[2]
+  [29, 26, 15],// 4: DFR  D[2], F[8], R[6]
+  [27, 44, 24],// 5: DFL  D[0], L[8], F[6]
+  [33, 53, 42],// 6: DBL  D[6], B[8], L[6]
+  [35, 17, 51],// 7: DRB  D[8], R[8], B[6]
 ];
 const _CF_SOLVED = _CF.map(fl => fl.map(fi => Math.floor(fi/9)));
 
@@ -195,157 +195,388 @@ const _EF = [
 const _EF_SOLVED = _EF.map(fl => fl.map(fi => Math.floor(fi/9)));
 
 /* ============================================================
-   BFS 기반 Phase 1 & Phase 2 솔버
-   (테이블 생성 없이 직접 탐색 - 중소 규모 큐브에 충분)
+   Kociemba 좌표/가지치기 테이블 기반 Phase 1 & Phase 2 솔버
 ============================================================ */
 
 const ALL_MOVES = ['U',"U'","U2",'D',"D'","D2",'F',"F'","F2",'B',"B'","B2",'L',"L'","L2",'R',"R'","R2"];
-const PHASE2_MOVES = ['U',"U'","U2",'D',"D'","D2",'F2','B2','L',"L'","L2",'R',"R'","R2"];
+const PHASE2_MOVES = ['U',"U'","U2",'D',"D'","D2",'F2','B2','L2','R2'];
+const PHASE2_MOVE_INDEXES = PHASE2_MOVES.map(mv => ALL_MOVES.indexOf(mv));
 const OPP_FACE = {U:'D',D:'U',F:'B',B:'F',L:'R',R:'L'};
+const FACT = [1,1,2,6,24,120,720,5040,40320];
 
-/* ------ Phase 1 체크: G1 군에 속하는가? ------ */
-function isPhase1Solved(fc) {
-  // 코너 orientation, 엣지 orientation, UD-slice 모두 해결
-  for (let c = 0; c < 8; c++) {
-    const colors = _CF[c].map(fi => fc.f[fi]);
-    const udIdx = colors.findIndex(v => v === 0 || v === 3);
-    if (udIdx !== 0) return false; // 코너 orientation != 0
-  }
-  for (let e = 0; e < 12; e++) {
-    const colors = _EF[e].map(fi => fc.f[fi]);
-    let eo;
-    if (e < 8) {
-      eo = (colors[0] === 0 || colors[0] === 3) ? 0 : 1;
-    } else {
-      eo = (colors[0] === 2 || colors[0] === 5) ? 0 : 1;
-    }
-    if (eo !== 0) return false; // 엣지 orientation != 0
-  }
-  // UD-slice 엣지(8,9,10,11)가 slice 위치(8-11)에 있는가
-  for (let e = 0; e < 8; e++) {
-    const colors = _EF[e].map(fi => fc.f[fi]);
-    const colorSet = new Set(colors);
-    // 이 엣지가 slice 엣지(FR,FL,BR,BL)인가?
-    for (let d = 8; d < 12; d++) {
-      if (_EF_SOLVED[d].every(f => colorSet.has(f))) return false;
-    }
-  }
-  return true;
-}
+let _tablesReady = false;
+let _solverTables = null;
 
-/* ------ 휴리스틱 ------ */
-function h1(fc) {
-  let badCo = 0, badEo = 0, sliceOut = 0;
+function faceletToCubie(fc) {
+  const cp = new Uint8Array(8);
+  const co = new Uint8Array(8);
   for (let c = 0; c < 8; c++) {
-    const colors = _CF[c].map(fi => fc.f[fi]);
-    const udIdx = colors.findIndex(v => v === 0 || v === 3);
-    if (udIdx !== 0) badCo++;
-  }
-  for (let e = 0; e < 12; e++) {
-    const colors = _EF[e].map(fi => fc.f[fi]);
-    let eo = (e < 8) ? ((colors[0]===0||colors[0]===3)?0:1) : ((colors[0]===2||colors[0]===5)?0:1);
-    if (eo !== 0) badEo++;
-    if (e < 8) {
-      // UD 층 엣지 위치에 slice 엣지가 있는지
-      const colorSet = new Set(colors);
-      for (let d = 8; d < 12; d++) {
-        if (_EF_SOLVED[d].every(f => colorSet.has(f))) { sliceOut++; break; }
+    const clr = [fc.f[_CF[c][0]], fc.f[_CF[c][1]], fc.f[_CF[c][2]]];
+    const key = [clr[0], clr[1], clr[2]].sort().join(',');
+    for (let d = 0; d < 8; d++) {
+      const refKey = [_CF_SOLVED[d][0], _CF_SOLVED[d][1], _CF_SOLVED[d][2]].sort().join(',');
+      if (key === refKey) {
+        cp[c] = d;
+        const udFace = _CF_SOLVED[d][0];
+        co[c] = (clr[0] === udFace) ? 0 : ((clr[1] === udFace) ? 1 : 2);
+        break;
       }
     }
   }
-  return Math.max(Math.ceil(badCo/4), Math.ceil(badEo/4), Math.ceil(sliceOut/4));
+
+  const ep = new Uint8Array(12);
+  const eo = new Uint8Array(12);
+  for (let e = 0; e < 12; e++) {
+    const clr = [fc.f[_EF[e][0]], fc.f[_EF[e][1]]];
+    for (let d = 0; d < 12; d++) {
+      const ref = _EF_SOLVED[d];
+      if ((clr[0] === ref[0] && clr[1] === ref[1]) ||
+          (clr[0] === ref[1] && clr[1] === ref[0])) {
+        ep[e] = d;
+        eo[e] = (clr[0] === ref[0]) ? 0 : 1;
+        break;
+      }
+    }
+  }
+  return {cp, co, ep, eo};
 }
 
-function h2(fc) {
-  // Phase 2: 코너/엣지 위치
-  let misplaced = 0;
-  for (let i = 0; i < 54; i++) {
-    if (fc.f[i] !== Math.floor(i/9)) misplaced++;
+function applyCubieMove(c, mv) {
+  const cp = new Uint8Array(8);
+  const co = new Uint8Array(8);
+  const ep = new Uint8Array(12);
+  const eo = new Uint8Array(12);
+  for (let i = 0; i < 8; i++) {
+    const src = mv.cp[i];
+    cp[i] = c.cp[src];
+    co[i] = (c.co[src] + mv.co[i]) % 3;
   }
-  return Math.ceil(misplaced / 8);
+  for (let i = 0; i < 12; i++) {
+    const src = mv.ep[i];
+    ep[i] = c.ep[src];
+    eo[i] = (c.eo[src] + mv.eo[i]) & 1;
+  }
+  return {cp, co, ep, eo};
+}
+
+function solvedCubie() {
+  return {
+    cp: Uint8Array.from([0,1,2,3,4,5,6,7]),
+    co: new Uint8Array(8),
+    ep: Uint8Array.from([0,1,2,3,4,5,6,7,8,9,10,11]),
+    eo: new Uint8Array(12)
+  };
+}
+
+function buildCubieMoves() {
+  const solved = new FaceletCube();
+  const moves = [];
+  for (const mv of ALL_MOVES) {
+    const c = solved.clone();
+    c.move(mv);
+    moves.push(faceletToCubie(c));
+  }
+  return moves;
+}
+
+function getCO(c) {
+  let idx = 0;
+  for (let i = 0; i < 7; i++) idx = idx * 3 + c.co[i];
+  return idx;
+}
+function setCO(c, idx) {
+  let sum = 0;
+  for (let i = 6; i >= 0; i--) {
+    c.co[i] = idx % 3;
+    sum += c.co[i];
+    idx = Math.floor(idx / 3);
+  }
+  c.co[7] = (3 - (sum % 3)) % 3;
+}
+function getEO(c) {
+  let idx = 0;
+  for (let i = 0; i < 11; i++) idx = (idx << 1) | c.eo[i];
+  return idx;
+}
+function setEO(c, idx) {
+  let sum = 0;
+  for (let i = 10; i >= 0; i--) {
+    c.eo[i] = idx & 1;
+    sum += c.eo[i];
+    idx >>= 1;
+  }
+  c.eo[11] = sum & 1;
+}
+
+const SLICE_MASK_TO_COORD = new Int16Array(4096).fill(-1);
+const COORD_TO_SLICE_MASK = new Uint16Array(495);
+(function initSliceMasks() {
+  let n = 0;
+  for (let mask = 4095; mask >= 0; mask--) {
+    let bits = 0;
+    for (let i = 0; i < 12; i++) bits += (mask >> i) & 1;
+    if (bits === 4) {
+      SLICE_MASK_TO_COORD[mask] = n;
+      COORD_TO_SLICE_MASK[n] = mask;
+      n++;
+    }
+  }
+})();
+
+function getSlice(c) {
+  let mask = 0;
+  for (let i = 0; i < 12; i++) if (c.ep[i] >= 8) mask |= 1 << i;
+  return SLICE_MASK_TO_COORD[mask];
+}
+
+function permRank(arr, n) {
+  let idx = 0;
+  const used = new Uint8Array(n);
+  for (let i = 0; i < n; i++) {
+    let less = 0;
+    for (let j = 0; j < arr[i]; j++) if (!used[j]) less++;
+    idx += less * FACT[n - 1 - i];
+    used[arr[i]] = 1;
+  }
+  return idx;
+}
+
+function permUnrank(idx, n, out) {
+  const elems = [];
+  for (let i = 0; i < n; i++) elems.push(i);
+  for (let i = 0; i < n; i++) {
+    const f = FACT[n - 1 - i];
+    const j = Math.floor(idx / f);
+    idx %= f;
+    out[i] = elems.splice(j, 1)[0];
+  }
+}
+
+function getCP(c) { return permRank(c.cp, 8); }
+function setCP(c, idx) { permUnrank(idx, 8, c.cp); }
+function getEP8(c) {
+  const a = new Uint8Array(8);
+  for (let i = 0; i < 8; i++) a[i] = c.ep[i];
+  return permRank(a, 8);
+}
+function setEP8(c, idx) {
+  const a = new Uint8Array(8);
+  permUnrank(idx, 8, a);
+  for (let i = 0; i < 8; i++) c.ep[i] = a[i];
+  for (let i = 8; i < 12; i++) c.ep[i] = i;
+}
+function getSlicePerm(c) {
+  const a = new Uint8Array(4);
+  for (let i = 0; i < 4; i++) a[i] = c.ep[i + 8] - 8;
+  return permRank(a, 4);
+}
+function setSlicePerm(c, idx) {
+  const a = new Uint8Array(4);
+  permUnrank(idx, 4, a);
+  for (let i = 0; i < 8; i++) c.ep[i] = i;
+  for (let i = 0; i < 4; i++) c.ep[i + 8] = a[i] + 8;
+}
+
+function buildMoveTable(size, setter, getter, moves, moveIndexes) {
+  const indexes = moveIndexes || ALL_MOVES.map((_, i) => i);
+  const table = new Uint16Array(size * 18);
+  for (let idx = 0; idx < size; idx++) {
+    const c = solvedCubie();
+    setter(c, idx);
+    for (const m of indexes) {
+      table[idx * 18 + m] = getter(applyCubieMove(c, moves[m]));
+    }
+  }
+  return table;
+}
+
+function buildSliceMoveTable(moves) {
+  const table = new Uint16Array(495 * 18);
+  for (let idx = 0; idx < 495; idx++) {
+    const mask = COORD_TO_SLICE_MASK[idx];
+    for (let m = 0; m < 18; m++) {
+      const mv = moves[m];
+      let next = 0;
+      for (let dest = 0; dest < 12; dest++) {
+        if (mask & (1 << mv.ep[dest])) next |= 1 << dest;
+      }
+      table[idx * 18 + m] = SLICE_MASK_TO_COORD[next];
+    }
+  }
+  return table;
+}
+
+function buildPruneTable(sizeA, sizeB, moveA, moveB, moveIndexes) {
+  const total = sizeA * sizeB;
+  const prune = new Int8Array(total);
+  prune.fill(-1);
+  const qa = new Int32Array(total);
+  const qb = new Int16Array(total);
+  let head = 0, tail = 0;
+  prune[0] = 0;
+  qa[tail] = 0; qb[tail++] = 0;
+  while (head < tail) {
+    const a = qa[head];
+    const b = qb[head++];
+    const d = prune[a * sizeB + b] + 1;
+    for (const m of moveIndexes) {
+      const na = moveA[a * 18 + m];
+      const nb = moveB[b * 18 + m];
+      const p = na * sizeB + nb;
+      if (prune[p] === -1) {
+        prune[p] = d;
+        qa[tail] = na;
+        qb[tail++] = nb;
+      }
+    }
+  }
+  return prune;
+}
+
+function initSolverTables() {
+  if (_tablesReady) return _solverTables;
+  const moves = buildCubieMoves();
+  const coMove = buildMoveTable(2187, setCO, getCO, moves);
+  const eoMove = buildMoveTable(2048, setEO, getEO, moves);
+  const sliceMove = buildSliceMoveTable(moves);
+  const cpMove = buildMoveTable(40320, setCP, getCP, moves, PHASE2_MOVE_INDEXES);
+  const epMove = buildMoveTable(40320, setEP8, getEP8, moves, PHASE2_MOVE_INDEXES);
+  const slicePermMove = buildMoveTable(24, setSlicePerm, getSlicePerm, moves, PHASE2_MOVE_INDEXES);
+
+  _solverTables = {
+    moves, coMove, eoMove, sliceMove, cpMove, epMove, slicePermMove,
+    cornerOrientPrune: buildPruneTable(2187, 495, coMove, sliceMove, ALL_MOVES.map((_, i) => i)),
+    edgeOrientPrune: buildPruneTable(2048, 495, eoMove, sliceMove, ALL_MOVES.map((_, i) => i)),
+    cornerPermPrune: buildPruneTable(40320, 24, cpMove, slicePermMove, PHASE2_MOVE_INDEXES),
+    edgePermPrune: buildPruneTable(40320, 24, epMove, slicePermMove, PHASE2_MOVE_INDEXES)
+  };
+  _tablesReady = true;
+  return _solverTables;
+}
+
+function h1Coord(st, t) {
+  return Math.max(
+    t.cornerOrientPrune[st.co * 495 + st.slice],
+    t.edgeOrientPrune[st.eo * 495 + st.slice]
+  );
+}
+
+function h2Coord(st, t) {
+  return Math.max(
+    t.cornerPermPrune[st.cp * 24 + st.sp],
+    t.edgePermPrune[st.ep * 24 + st.sp]
+  );
+}
+
+function coordsFromCubie(c) {
+  return {
+    co: getCO(c),
+    eo: getEO(c),
+    slice: getSlice(c),
+    cp: getCP(c),
+    ep: getEP8(c),
+    sp: getSlicePerm(c)
+  };
 }
 
 /* ------ IDA* ------ */
-let _totalNodes = 0;
-const MAX_NODES = 5000000;
+let _stopSearch = false;
 
-function idaStar(cube, maxDepth, hFunc, moveSet, phase1Check) {
-  for (let depth = 0; depth <= maxDepth; depth++) {
-    _totalNodes = 0;
-    const path = [];
-    const result = idaDFS(cube, depth, hFunc, moveSet, '', '', path, phase1Check);
-    if (result) return path;
-    if (_totalNodes >= MAX_NODES) break;
+function shouldSkipMove(face, lastFace, last2Face) {
+  return face === lastFace || (OPP_FACE[face] === lastFace && face === last2Face);
+}
+
+function applyPathCubie(c, path, t) {
+  let cur = c;
+  for (const mv of path) cur = applyCubieMove(cur, t.moves[ALL_MOVES.indexOf(mv)]);
+  return cur;
+}
+
+function phase2DFS(st, t, limit, depth, lastFace, last2Face, path, deadline) {
+  if (Date.now() > deadline) return null;
+  const h = h2Coord(st, t);
+  if (depth + h > limit) return null;
+  if (st.cp === 0 && st.ep === 0 && st.sp === 0) return path.slice();
+  if (depth >= limit) return null;
+
+  for (const mi of PHASE2_MOVE_INDEXES) {
+    const mv = ALL_MOVES[mi];
+    const face = mv[0];
+    if (shouldSkipMove(face, lastFace, last2Face)) continue;
+    const next = {
+      cp: t.cpMove[st.cp * 18 + mi],
+      ep: t.epMove[st.ep * 18 + mi],
+      sp: t.slicePermMove[st.sp * 18 + mi]
+    };
+    path.push(mv);
+    const found = phase2DFS(next, t, limit, depth + 1, face, lastFace, path, deadline);
+    if (found) return found;
+    path.pop();
   }
   return null;
 }
 
-function idaDFS(cube, limit, hFunc, moveSet, lastFace, last2Face, path, goalCheck) {
-  if (++_totalNodes > MAX_NODES) return false;
-  if (goalCheck(cube)) return true;
-  const h = hFunc(cube);
-  if (path.length + h > limit) return false;
-  if (path.length >= limit) return false;
+function phase2Search(st, t, maxDepth, deadline, lastFace, last2Face) {
+  for (let depth = h2Coord(st, t); depth <= maxDepth; depth++) {
+    if (Date.now() > deadline) return null;
+    const found = phase2DFS(st, t, depth, 0, lastFace, last2Face, [], deadline);
+    if (found) return found;
+  }
+  return null;
+}
 
-  for (const mv of moveSet) {
+function phase1DFS(st, t, initialCubie, limit, depth, lastFace, last2Face, path, deadline, maxTotal) {
+  if (Date.now() > deadline || _stopSearch) return null;
+  const h = h1Coord(st, t);
+  if (depth + h > limit) return null;
+
+  if (st.co === 0 && st.eo === 0 && st.slice === 0) {
+    const afterP1 = applyPathCubie(initialCubie, path, t);
+    const p2Start = coordsFromCubie(afterP1);
+    const p2Max = Math.min(18, maxTotal - path.length);
+    const p2 = phase2Search(p2Start, t, p2Max, deadline, lastFace, last2Face);
+    if (p2) return path.concat(p2);
+  }
+  if (depth >= limit) return null;
+
+  for (let mi = 0; mi < 18; mi++) {
+    const mv = ALL_MOVES[mi];
     const face = mv[0];
-    if (face === lastFace) continue;
-    if (OPP_FACE[face] === lastFace && face === last2Face) continue;
-    const next = cube.clone();
-    next.move(mv);
+    if (shouldSkipMove(face, lastFace, last2Face)) continue;
+    const next = {
+      co: t.coMove[st.co * 18 + mi],
+      eo: t.eoMove[st.eo * 18 + mi],
+      slice: t.sliceMove[st.slice * 18 + mi]
+    };
     path.push(mv);
-    if (idaDFS(next, limit, hFunc, moveSet, face, lastFace, path, goalCheck)) return true;
+    const found = phase1DFS(next, t, initialCubie, limit, depth + 1, face, lastFace, path, deadline, maxTotal);
+    if (found) return found;
     path.pop();
   }
-  return false;
+  return null;
 }
 
 /* ------ Two-Phase Solve ------ */
-function twoPhaseSearch(cube, maxTotal) {
-  // Phase 1: G0 → G1 (최대 12수)
-  const phase1Moves = idaStar(cube, Math.min(12, maxTotal), h1, ALL_MOVES, isPhase1Solved);
+function twoPhaseSearch(cube, timeLimitMs) {
+  const t = initSolverTables();
+  const deadline = Date.now() + (timeLimitMs || 15000);
+  const cubie = faceletToCubie(cube);
+  const start = coordsFromCubie(cubie);
 
-  if (phase1Moves === null) {
-    // Phase 1 실패 → IDA* fallback
-    return null;
+  for (let p1Depth = h1Coord(start, t); p1Depth <= 12; p1Depth++) {
+    const found = phase1DFS(start, t, cubie, p1Depth, 0, '', '', [], deadline, 30);
+    if (found) return found;
   }
-
-  // Phase 1 적용 후 상태
-  const afterP1 = cube.clone();
-  for (const mv of phase1Moves) afterP1.move(mv);
-
-  // Phase 2: G1 → 완성 (Phase2 이동만 허용)
-  const remaining = maxTotal - phase1Moves.length;
-  if (remaining < 0) return null;
-
-  const phase2Moves = idaStar(afterP1, Math.min(18, remaining), h2, PHASE2_MOVES,
-    fc => fc.isSolved());
-
-  if (phase2Moves === null) return null;
-
-  return [...phase1Moves, ...phase2Moves];
+  return null;
 }
 
 /* ============================================================
-   메인 솔버 (Two-Phase + fallback IDA*)
+   메인 솔버 (Two-Phase IDA*)
 ============================================================ */
 function solveCubeInternal(cube) {
   if (cube.isSolved()) return [];
-
-  // Two-Phase 시도
-  let sol = twoPhaseSearch(cube, 25);
-  if (sol) return sol;
-
-  // Fallback: 순수 IDA* (깊이 20까지)
-  _totalNodes = 0;
-  const MAX_NODES_FB = 8000000;
-  for (let d = 1; d <= 20; d++) {
-    _totalNodes = 0;
-    const path = [];
-    if (idaDFS(cube, d, h2, ALL_MOVES, '', '', path, fc => fc.isSolved())) return path;
-    if (_totalNodes >= MAX_NODES_FB) break;
-  }
-  return null;
+  _stopSearch = false;
+  return twoPhaseSearch(cube, 15000);
 }
 
 /* ============================================================
@@ -375,65 +606,6 @@ function validateCube(faceData) {
   if (new Set(Object.values(centers)).size < 6) {
     errors.push('각 면의 중앙 칸 색상이 모두 달라야 합니다.');
     return {valid:false, errors};
-  }
-
-  const c2f = {};
-  for (const [f, c] of Object.entries(centers)) c2f[c] = f;
-  const OPPS = {U:'D',D:'U',F:'B',B:'F',L:'R',R:'L'};
-
-  // 코너 검증
-  const CORNERS = [
-    [['U',8],['R',0],['F',2]],   // URF
-    [['U',6],['F',0],['L',0]],   // UFL
-    [['U',0],['L',2],['B',0]],   // UBL
-    [['U',2],['R',2],['B',2]],   // UBR
-    [['D',2],['F',8],['R',6]],   // DFR
-    [['D',0],['L',8],['F',6]],   // DFL
-    [['D',6],['B',8],['L',6]],   // DBL
-    [['D',8],['R',8],['B',6]],   // DRB
-  ];
-
-  for (const corner of CORNERS) {
-    const colors = corner.map(([f,i]) => faceData[f][i]);
-    const faces = colors.map(c => c2f[c]);
-    if (faces.some(f => !f)) {
-      errors.push(`코너에 알 수 없는 색상: ${colors.join('+')}`);
-      return {valid:false, errors};
-    }
-    if (new Set(faces).size < 3) {
-      errors.push(`불가능한 코너 (${colors.join('+')}) - 같은 색상 2개 이상`);
-      return {valid:false, errors};
-    }
-    for (let a = 0; a < 3; a++)
-      for (let b = a+1; b < 3; b++)
-        if (OPPS[faces[a]] === faces[b]) {
-          errors.push(`불가능한 코너 (${colors.join('+')}) - 마주보는 색상`);
-          return {valid:false, errors};
-        }
-  }
-
-  // 엣지 검증
-  const EDGES = [
-    [['U',7],['F',1]], [['U',5],['R',1]], [['U',3],['L',1]], [['U',1],['B',1]],
-    [['D',1],['F',7]], [['D',5],['R',7]], [['D',3],['L',7]], [['D',7],['B',7]],
-    [['F',5],['R',3]], [['F',3],['L',5]], [['B',3],['R',5]], [['B',5],['L',3]],
-  ];
-
-  for (const edge of EDGES) {
-    const colors = edge.map(([f,i]) => faceData[f][i]);
-    const faces = colors.map(c => c2f[c]);
-    if (faces.some(f => !f)) {
-      errors.push(`엣지에 알 수 없는 색상: ${colors.join('+')}`);
-      return {valid:false, errors};
-    }
-    if (new Set(faces).size < 2) {
-      errors.push(`불가능한 엣지 (${colors.join('+')}) - 같은 색상 2개`);
-      return {valid:false, errors};
-    }
-    if (OPPS[faces[0]] === faces[1]) {
-      errors.push(`불가능한 엣지 (${colors.join('+')}) - 마주보는 색상`);
-      return {valid:false, errors};
-    }
   }
 
   const cubeStr = buildCubeString(faceData);
@@ -468,11 +640,11 @@ const _CPOS = [
   [8, 9, 20],   // 0: URF  U[8]=8,  R[0]=9,  F[2]=20
   [6, 18, 38],  // 1: UFL  U[6]=6,  F[0]=18, L[2]=38
   [0, 36, 47],  // 2: ULB  U[0]=0,  L[0]=36, B[2]=47
-  [2, 11, 45],  // 3: URB  U[2]=2,  R[2]=11, B[0]=45
+  [2, 45, 11],  // 3: URB  U[2]=2,  B[0]=45, R[2]=11
   [29, 26, 15], // 4: DFR  D[2]=29, F[8]=26, R[6]=15
-  [27, 24, 44], // 5: DFL  D[0]=27, F[6]=24, L[8]=44
-  [33, 42, 51], // 6: DBL  D[6]=33, L[6]=42, B[6]=51
-  [35, 17, 53], // 7: DRB  D[8]=35, R[8]=17, B[8]=53
+  [27, 44, 24], // 5: DFL  D[0]=27, L[8]=44, F[6]=24
+  [33, 53, 42], // 6: DBL  D[6]=33, B[8]=53, L[6]=42
+  [35, 17, 51], // 7: DRB  D[8]=35, R[8]=17, B[6]=51
 ];
 // 해결상태 각 코너 면 ID (= floor(fi/9))
 const _CREF = _CPOS.map(fl => fl.map(fi => Math.floor(fi/9)));
@@ -620,9 +792,57 @@ async function solveCube(faceData) {
   if (!solution) {
     return {valid:false, errors:[
       '해결 방법을 찾지 못했습니다.',
-      '색상 입력을 다시 확인해 주세요.'
+      '색상 입력은 물리적으로 가능한 상태이지만, 제한 시간 안에 해법을 찾지 못했습니다.'
     ], solution:null};
   }
 
   return {valid:true, errors:[], solution};
+}
+
+function randomScramble(length) {
+  const seq = [];
+  let lastFace = '', last2Face = '';
+  for (let i = 0; i < length; i++) {
+    const candidates = ALL_MOVES.filter(mv => !shouldSkipMove(mv[0], lastFace, last2Face));
+    const mv = candidates[Math.floor(Math.random() * candidates.length)];
+    seq.push(mv);
+    last2Face = lastFace;
+    lastFace = mv[0];
+  }
+  return seq;
+}
+
+function runSolverTest(count) {
+  const total = count || 100;
+  const result = {passed:0, failed:0, errors:[]};
+  initSolverTables();
+  for (let i = 0; i < total; i++) {
+    const scramble = randomScramble(25);
+    const cube = new FaceletCube();
+    for (const mv of scramble) cube.move(mv);
+    const solution = solveCubeInternal(cube);
+    if (!solution) {
+      result.failed++;
+      result.errors.push({index:i, scramble, error:'no solution'});
+      continue;
+    }
+    const check = cube.clone();
+    for (const mv of solution) check.move(mv);
+    if (check.isSolved()) {
+      result.passed++;
+    } else {
+      result.failed++;
+      result.errors.push({index:i, scramble, solution, error:'solution did not solve cube'});
+    }
+  }
+  console.log(`Solver self-test: ${result.passed}/${total} passed, ${result.failed} failed`);
+  return result;
+}
+
+if (typeof window !== 'undefined') {
+  window.solveCube = solveCube;
+  window.getMoveInfo = getMoveInfo;
+  window.runSolverTest = runSolverTest;
+  window.initSolverTables = initSolverTables;
+  initSolverTables();
 }

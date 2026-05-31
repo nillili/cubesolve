@@ -158,6 +158,8 @@ function onReset() {
   hideError();
   resetSolutionPanel();
   setStepIndicator(1);
+  if (typeof window.clearMoveArrow === 'function') window.clearMoveArrow();
+  if (typeof window.unlockCubeView === 'function') window.unlockCubeView();
 }
 
 /* ============================================================
@@ -168,6 +170,11 @@ async function onSolve() {
 
   hideError();
 
+  console.group('[CUBE] 해결하기 시작');
+  console.log('[CUBE] 입력 faceData:', JSON.parse(JSON.stringify(STATE.faceData)));
+  console.log('[CUBE] 색상 개수:', countColors(STATE.faceData));
+  const t0 = performance.now();
+
   // 로딩 표시
   STATE.solving = true;
   document.getElementById('loading-overlay').classList.remove('hidden');
@@ -177,24 +184,30 @@ async function onSolve() {
 
   try {
     const result = await solveCube(STATE.faceData);
+    console.log(`[CUBE] solveCube 결과 (${(performance.now() - t0).toFixed(0)}ms):`, result);
 
     if (!result.valid) {
+      console.warn('[CUBE] 유효하지 않음:', result.errors);
       showError(result.errors.join('\n'));
       setStepIndicator(1);
     } else if (result.alreadySolved) {
+      console.log('[CUBE] 이미 완성된 큐브');
       showAlreadySolved();
       setStepIndicator(3);
     } else {
       STATE.solution = result.solution;
       STATE.currentStep = 0;
+      console.log(`[CUBE] 해법 (${result.solution.length}수):`, result.solution.join(' '));
       showSolution(result.solution);
       setStepIndicator(3);
     }
   } catch (err) {
+    console.error('[CUBE] 계산 중 예외:', err);
     showError('계산 중 오류가 발생했습니다: ' + err.message);
   } finally {
     STATE.solving = false;
     document.getElementById('loading-overlay').classList.add('hidden');
+    console.groupEnd();
   }
 }
 
@@ -211,6 +224,9 @@ function showSolution(moves) {
     return;
   }
 
+  // 풀이 중에는 3D 큐브 시점을 고정 (전후좌우 혼동 방지)
+  if (typeof window.lockCubeView === 'function') window.lockCubeView();
+
   // 현재 스텝으로 큐브 상태 추적
   let displayStep = STATE.currentStep;
 
@@ -218,6 +234,18 @@ function showSolution(moves) {
     displayStep = STATE.currentStep;
     const total = moves.length;
     const isDone = displayStep >= total;
+
+    // 3D 미리보기에 현재 이동 방향 화살표 표시
+    if (isDone) {
+      console.log(`[CUBE][step] 완료 상태 (${total}/${total}) — 화살표 제거, 시점 고정 해제`);
+      if (typeof window.clearMoveArrow === 'function') window.clearMoveArrow();
+      // 모든 스텝 완료 후에는 자유롭게 돌려볼 수 있도록 시점 고정 해제
+      if (typeof window.unlockCubeView === 'function') window.unlockCubeView();
+    } else {
+      console.log(`[CUBE][step] 스텝 ${displayStep + 1}/${total} — 현재 이동: ${moves[displayStep]}`);
+      if (typeof window.lockCubeView === 'function') window.lockCubeView();
+      if (typeof window.showMoveArrow === 'function') window.showMoveArrow(moves[displayStep]);
+    }
 
     panel.innerHTML = `
       <div class="solution-header">
@@ -271,11 +299,16 @@ function showSolution(moves) {
         : (() => {
             const mv = moves[displayStep];
             const info = getMoveInfo(mv);
+            const dbl = mv.includes('2');
+            const prime = mv.includes("'");
+            const turnAmt = dbl ? '2칸' : '1칸';
+            const dir = dbl ? '' : (prime ? ' · 반시계 방향' : ' · 시계 방향');
             return `<div class="current-move-card">
               <div class="move-symbol">${mv}</div>
               <div class="move-info">
                 <div class="move-name">${info.name}</div>
                 <div class="move-desc">${info.desc}</div>
+                <div class="move-turn"><i class="fas fa-rotate"></i> 회전량: <b>${turnAmt}</b>${dir}</div>
               </div>
             </div>`;
           })()
