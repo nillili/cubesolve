@@ -468,6 +468,32 @@ html, body {
   50%      { opacity: 1; }
 }
 
+.lock-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: 'Inter', sans-serif;
+  border-radius: 7px;
+  border: 1px solid var(--border);
+  background: var(--bg3);
+  color: var(--text2);
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.lock-toggle-btn:hover { border-color: var(--text2); color: var(--text); }
+.lock-toggle-btn.locked {
+  color: #ffd400;
+  border-color: rgba(255, 212, 0, 0.5);
+  background: rgba(255, 212, 0, 0.1);
+}
+.lock-toggle-btn.locked:hover {
+  background: rgba(255, 212, 0, 0.2);
+}
+
 .drag-hint {
   text-align: center;
   font-size: 0.75rem;

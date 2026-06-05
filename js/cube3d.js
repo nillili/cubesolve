@@ -10,6 +10,9 @@
   const cube = document.getElementById('cube3d');
   if (!wrap || !cube) return;
 
+  const lockToggleBtn = document.getElementById('btn-lock-toggle');
+  const dragHintEl = document.getElementById('drag-hint');
+
   // 초기 회전 각도
   let rotX = -25;
   let rotY = 35;
@@ -24,6 +27,7 @@
 
   // 마우스 이벤트
   wrap.addEventListener('mousedown', (e) => {
+    if (viewLocked) return;
     isDragging = true;
     startX = e.clientX;
     startY = e.clientY;
@@ -39,15 +43,16 @@
     rotX = startRotX - dy * 0.5;
     rotX = Math.max(-90, Math.min(90, rotX));
     applyRotation();
-    if (viewLocked) showRecenter();
+    showRecenter();
   });
   document.addEventListener('mouseup', () => {
     isDragging = false;
-    wrap.style.cursor = 'grab';
+    if (!viewLocked) wrap.style.cursor = 'grab';
   });
 
   // 터치 이벤트
   wrap.addEventListener('touchstart', (e) => {
+    if (viewLocked) return;
     isDragging = true;
     startX = e.touches[0].clientX;
     startY = e.touches[0].clientY;
@@ -62,7 +67,7 @@
     rotX = startRotX - dy * 0.5;
     rotX = Math.max(-90, Math.min(90, rotX));
     applyRotation();
-    if (viewLocked) showRecenter();
+    showRecenter();
   }, { passive: true });
   wrap.addEventListener('touchend', () => { isDragging = false; });
 
@@ -194,18 +199,46 @@
     recenterBtn.addEventListener('click', recenterView);
   }
 
+  function updateLockToggleBtn() {
+    if (!lockToggleBtn) return;
+    if (viewLocked) {
+      lockToggleBtn.innerHTML = '<i class="fas fa-lock"></i> 고정';
+      lockToggleBtn.classList.add('locked');
+    } else {
+      lockToggleBtn.innerHTML = '<i class="fas fa-lock-open"></i> 해제';
+      lockToggleBtn.classList.remove('locked');
+    }
+    if (dragHintEl) {
+      dragHintEl.innerHTML = viewLocked
+        ? '<i class="fas fa-lock"></i> 화면 고정 중'
+        : '<i class="fas fa-hand-pointer"></i> 드래그로 회전';
+    }
+    wrap.style.cursor = viewLocked ? 'default' : 'grab';
+  }
+
+  if (lockToggleBtn) {
+    lockToggleBtn.addEventListener('click', () => {
+      if (viewLocked) {
+        window.unlockCubeView();
+      } else {
+        window.lockCubeView();
+      }
+    });
+  }
+
   window.lockCubeView = function () {
-    // 이미 고정 상태면 사용자가 돌려둔 각도를 유지(스텝 이동 시 스냅 방지)
     if (viewLocked) return;
     viewLocked = true;
     autoRotate = false;
     isDragging = false;
-    recenterView(); // 표준 등각 시점(앞=F, 위=U, 오른쪽=R)으로 고정 + 버튼 숨김
+    recenterView();
+    updateLockToggleBtn();
   };
   window.unlockCubeView = function () {
     viewLocked = false;
     autoRotate = true;
     hideRecenter();
+    updateLockToggleBtn();
   };
 
   /* ============================================================
