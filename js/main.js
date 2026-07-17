@@ -80,13 +80,18 @@ function onCellClick(e) {
   const idx = parseInt(cell.dataset.idx);
 
   // 이미 같은 색이면 지우기 (토글)
+  let didSet = false;
   if (STATE.faceData[face][idx] === STATE.selectedColor) {
     STATE.faceData[face][idx] = null;
     delete cell.dataset.color;
   } else {
     STATE.faceData[face][idx] = STATE.selectedColor;
     cell.dataset.color = STATE.selectedColor;
+    didSet = true;
   }
+
+  // 색을 채운 경우에만: 5색이 모두 9개면 남은 빈 칸을 마지막 색으로 자동 채움
+  if (didSet) autoFillLastColor();
 
   updateColorCounts();
   update3DCube(STATE.faceData);
@@ -94,6 +99,42 @@ function onCellClick(e) {
 
   // 실시간 간단 검증 (색상 초과 경고)
   realtimeValidation();
+}
+
+/* ============================================================
+   마지막 색상 자동 입력
+   - 6색 중 5색이 정확히 9개씩 채워지면, 남은 빈 칸은 모두
+     나머지 1색일 수밖에 없으므로 자동으로 채운다.
+============================================================ */
+function autoFillLastColor() {
+  const COLORS = ['W', 'Y', 'R', 'O', 'B', 'G'];
+  const counts = countColors(STATE.faceData);
+
+  // 정확히 9개인 색과, 그렇지 않은 색을 분류
+  const full = COLORS.filter(c => counts[c] === 9);
+  const remaining = COLORS.filter(c => counts[c] !== 9);
+
+  // 5색이 9개로 완료되고, 남은 색이 정확히 1색일 때만 동작
+  if (full.length !== 5 || remaining.length !== 1) return;
+
+  const lastColor = remaining[0];
+
+  // 빈 칸 개수 = 마지막 색이 채워야 할 칸 수인지 확인 (초과 입력 방어)
+  let emptyCount = 0;
+  for (const face of ['U', 'R', 'F', 'D', 'L', 'B'])
+    for (const v of STATE.faceData[face]) if (!v) emptyCount++;
+  if (emptyCount !== 9 - counts[lastColor]) return;
+
+  // 빈 칸을 마지막 색으로 채우고 UI 반영
+  for (const face of ['U', 'R', 'F', 'D', 'L', 'B']) {
+    STATE.faceData[face].forEach((v, i) => {
+      if (!v) {
+        STATE.faceData[face][i] = lastColor;
+        const cell = document.querySelector(`.cell[data-face="${face}"][data-idx="${i}"]`);
+        if (cell) cell.dataset.color = lastColor;
+      }
+    });
+  }
 }
 
 /* ============================================================

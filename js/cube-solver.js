@@ -796,6 +796,22 @@ async function solveCube(faceData) {
     ], solution:null};
   }
 
+  // 7. 해법 실검증 — 계산한 해법을 실제 스티커 큐브에 적용해 완성되는지 확인
+  //    솔버는 코너/엣지 조각 모델만 보므로, 중앙 색을 잘못 입력해
+  //    "조각은 제자리지만 스티커는 안 맞는" 물리적으로 불가능한 배치가
+  //    빈 해법([])이나 잘못된 해법으로 새어 나올 수 있다. 이를 여기서 차단한다.
+  const verify = cube.clone();
+  for (const mv of solution) verify.move(mv);
+  if (!verify.isSolved()) {
+    return {valid:false, errors:[
+      '입력한 색상이 물리적으로 불가능한 큐브입니다.',
+      '각 면의 중앙 색과 조각들의 색 배치가 서로 맞지 않습니다.',
+      '특히 마주보는 면(위-아래, 앞-뒤, 좌-우)의 중앙 색이',
+      '뒤바뀌어 입력되지 않았는지 확인해 주세요.',
+      '색상 입력을 처음부터 다시 확인하는 것을 권장합니다.'
+    ], solution:null};
+  }
+
   return {valid:true, errors:[], solution};
 }
 
